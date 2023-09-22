@@ -6,3 +6,6 @@ node_modules/
 
 # Generated from codegen
 generated/
+
+# Converted Schemas
+swagger2
