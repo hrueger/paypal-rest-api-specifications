@@ -1,3 +1,4 @@
+//@ts-check
 import fs from "fs";
 import path from "path";
 import Converter from "api-spec-converter";
@@ -26,5 +27,5 @@ for (let i = 0; i < apis.length; i++) {
     console.log("Writing Swagger 2.0");
     fs.writeFileSync(path.join(swagger2Dir, api + ".json"), swagger2);
     console.log("Generating Library");
-    child_process.execSync(`npx openapi-generator-cli generate --skip-validate-spec -i ${path.join(swagger2Dir, api + ".json")} -g javascript -o ./generated/${api}`, {stdio: "inherit"});
+    child_process.execSync(`npx openapi-generator-cli generate --skip-validate-spec -i ${path.join(swagger2Dir, api + ".json")} -g typescript-axios -o ./generated/${api}`, { stdio: "inherit" });
 }
