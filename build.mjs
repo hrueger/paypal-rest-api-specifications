@@ -14,6 +14,10 @@ if (fs.existsSync(swagger2Dir)) {
 }
 fs.mkdirSync(swagger2Dir);
 
+if (fs.existsSync("generated")) {
+    rimrafSync("generated");
+}
+
 
 for (let i = 0; i < apis.length; i++) {
     const api = apis[i];
@@ -28,4 +32,9 @@ for (let i = 0; i < apis.length; i++) {
     fs.writeFileSync(path.join(swagger2Dir, api + ".json"), swagger2);
     console.log("Generating Library");
     child_process.execSync(`npx openapi-generator-cli generate --skip-validate-spec -i ${path.join(swagger2Dir, api + ".json")} -g typescript-axios -o ./generated/${api}`, { stdio: "inherit" });
+    console.log("Cleaning up");
+    const filesAndFoldersToDelete = [".openapi-generator", ".gitignore", ".npmignore", ".openapi-generator-ignore", "git_push.sh"];
+    for (const f of filesAndFoldersToDelete) {
+        rimrafSync(path.join("./generated", api, f));
+    }
 }
